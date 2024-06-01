@@ -2,7 +2,7 @@ import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
 
 import styles from './ArticleParamsForm.module.scss';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Text } from '../text';
 import { Select } from '../select';
 import {
@@ -16,16 +16,16 @@ import {
 } from 'src/constants/articleProps';
 import { RadioGroup } from '../radio-group';
 
+export type PageStylesProps = {
+	fontFamily: string;
+	fontSize: string;
+	fontColor: string;
+	containerWidth: string;
+	bgColor: string;
+};
+
 export type ArticleParamsProps = {
-	setPageStyles: Dispatch<
-		SetStateAction<{
-			fontFamily: string;
-			fontSize: string;
-			fontColor: string;
-			containerWidth: string;
-			bgColor: string;
-		}>
-	>;
+	setPageStyles: (newPageStyles: PageStylesProps) => void;
 };
 
 export const ArticleParamsForm = (props: ArticleParamsProps) => {
@@ -104,7 +104,7 @@ export const ArticleParamsForm = (props: ArticleParamsProps) => {
 					/>
 
 					<RadioGroup
-						name={''}
+						name={'radio'}
 						options={fontSizeOptions}
 						selected={formState.fontSizeOption}
 						title={'Размер шрифта'}
