@@ -29,13 +29,13 @@ export type ArticleParamsProps = {
 };
 
 export const ArticleParamsForm = (props: ArticleParamsProps) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [formState, setFormState] = useState(defaultArticleState);
 
 	const formRef = useRef<HTMLFormElement | null>(null);
 
 	const toggleOpen = () => {
-		setIsOpen(!isOpen);
+		setIsMenuOpen(!isMenuOpen);
 	};
 
 	const handleFormChange = (value: OptionType, option: string) => {
@@ -44,18 +44,20 @@ export const ArticleParamsForm = (props: ArticleParamsProps) => {
 
 	const closeByOverlay = (e: MouseEvent) => {
 		if (formRef.current && !formRef.current.contains(e.target as Node)) {
-			setIsOpen(false);
+			setIsMenuOpen(false);
 			console.log(formRef.current);
 		}
 	};
 
 	useEffect(() => {
+		if (!isMenuOpen) return;
+
 		document.addEventListener('mousedown', closeByOverlay);
 
 		return () => {
 			document.removeEventListener('mousedown', closeByOverlay);
 		};
-	}, []);
+	}, [isMenuOpen]);
 
 	const confirmForm = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -68,7 +70,7 @@ export const ArticleParamsForm = (props: ArticleParamsProps) => {
 			bgColor: formState.backgroundColor.value,
 		});
 
-		setIsOpen(false);
+		setIsMenuOpen(false);
 	};
 
 	const resetForm = () => {
@@ -85,10 +87,10 @@ export const ArticleParamsForm = (props: ArticleParamsProps) => {
 
 	return (
 		<>
-			<ArrowButton onClick={toggleOpen} isOpen={isOpen} />
+			<ArrowButton onClick={toggleOpen} isMenuOpen={isMenuOpen} />
 			<aside
 				className={
-					isOpen
+					isMenuOpen
 						? `${styles.container} ${styles.container_open}`
 						: styles.container
 				}>
